@@ -144,32 +144,49 @@ export default {
                 : content;
         },
         getAnnouncement() {
-            this.$http.get("message.announcement_message").then(res => {
-                if (res.body.status) {
-                    this.announcemnet = res.body.message;
-                    this.adminName = res.body.username;
-                    this.adminHeader = res.body.header;
+            this.$http.get("message.announcement_message").then(
+                res => {
+                    if (res.body.status) {
+                        this.announcemnet = res.body.message;
+                        this.adminName = res.body.username;
+                        this.adminHeader = res.body.header;
+                    }
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
                 }
-            });
+            );
         },
         getAllMessage() {
-            this.$http.get("message.all_message").then(res => {
-                if (res.body.status) {
-                    this.allMessageList = res.body.all_message_list;
+            this.$http.get("message.all_message").then(
+                res => {
+                    if (res.body.status) {
+                        this.allMessageList = res.body.all_message_list;
+                    }
+                    this.pageNum =
+                        Math.ceil(this.allMessageList.length / this.pageSize) ||
+                        1;
+                    for (let i = 0; i < this.pageNum; i++) {
+                        this.everyPageDatas[i] = this.allMessageList.slice(
+                            this.pageSize * i,
+                            this.pageSize * (i + 1)
+                        );
+                    }
+                    this.curPageDatas = this.everyPageDatas[this.curPage];
+                    if (this.pageNum > 1) {
+                        this.nextPageDisable = false;
+                    }
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
                 }
-                this.pageNum =
-                    Math.ceil(this.allMessageList.length / this.pageSize) || 1;
-                for (let i = 0; i < this.pageNum; i++) {
-                    this.everyPageDatas[i] = this.allMessageList.slice(
-                        this.pageSize * i,
-                        this.pageSize * (i + 1)
-                    );
-                }
-                this.curPageDatas = this.everyPageDatas[this.curPage];
-                if (this.pageNum > 1) {
-                    this.nextPageDisable = false;
-                }
-            });
+            );
         },
         nextPage() {
             if (this.curPage == this.pageNum - 1) {
@@ -197,7 +214,10 @@ export default {
 </script>
 
 <style scoped>
-.box, .box-widget > .box-header, .box-footer, .box-body {
+.box,
+.box-widget > .box-header,
+.box-footer,
+.box-body {
     margin: 0px;
     padding: 0px;
     border: 0px;

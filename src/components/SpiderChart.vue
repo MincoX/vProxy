@@ -142,25 +142,32 @@ export default {
             this.disDate = true;
             this.$http
                 .post("dashboard.total_active_scale/", { filter_date: dt })
-                .then(res => {
-                    if (res.body.status) {
-                        this.scale = res.body.scale;
-                    } else {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.scale = res.body.scale;
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                });
+                );
         },
         showCalendar() {
             this.showCalendarModal = !this.showCalendarModal;
         },
         getChartDatas(dt) {
             this.disDate = true;
-            this.$http
-                .post("dashboard.line_chart/", { filter_date: dt })
-                .then(res => {
+            this.$http.post("dashboard.line_chart/", { filter_date: dt }).then(
+                res => {
                     if (res.body.status) {
                         this.labels = res.body.label;
                         this.ip66 = res.body.ip66;
@@ -175,7 +182,14 @@ export default {
                         });
                     }
                     this.disDate = false;
-                });
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         choseDay(dt) {
             this.curdate = dt;

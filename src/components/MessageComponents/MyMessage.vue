@@ -99,23 +99,32 @@ export default {
                 : content;
         },
         getMyMessage() {
-            this.$http.get("message.my_message").then(res => {
-                if (res.body.status) {
-                    this.myMessageList = res.body.message_list;
+            this.$http.get("message.my_message").then(
+                res => {
+                    if (res.body.status) {
+                        this.myMessageList = res.body.message_list;
+                    }
+                    this.pageNum =
+                        Math.ceil(this.myMessageList.length / this.pageSize) ||
+                        1;
+                    for (let i = 0; i < this.pageNum; i++) {
+                        this.everyPageDatas[i] = this.myMessageList.slice(
+                            this.pageSize * i,
+                            this.pageSize * (i + 1)
+                        );
+                    }
+                    this.curPageDatas = this.everyPageDatas[this.curPage];
+                    if (this.pageNum > 1) {
+                        this.nextPageDisable = false;
+                    }
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
                 }
-                this.pageNum =
-                    Math.ceil(this.myMessageList.length / this.pageSize) || 1;
-                for (let i = 0; i < this.pageNum; i++) {
-                    this.everyPageDatas[i] = this.myMessageList.slice(
-                        this.pageSize * i,
-                        this.pageSize * (i + 1)
-                    );
-                }
-                this.curPageDatas = this.everyPageDatas[this.curPage];
-                if (this.pageNum > 1) {
-                    this.nextPageDisable = false;
-                }
-            });
+            );
         },
         nextPage() {
             if (this.curPage == this.pageNum - 1) {
@@ -143,7 +152,10 @@ export default {
 </script>
 
 <style scoped>
-.box, .box-widget > .box-header, .box-footer, .box-body {
+.box,
+.box-widget > .box-header,
+.box-footer,
+.box-body {
     margin: 0px;
     padding: 0px;
     border: 0px;

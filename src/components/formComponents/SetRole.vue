@@ -64,20 +64,28 @@ export default {
                     user_id: para.userId,
                     new_roles: JSON.stringify(para.newRoles)
                 })
-                .then(res => {
-                    if (res.body.status) {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "success"
+                            });
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                        this.$emit("getAdmins");
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
-                            type: "success"
-                        });
-                    } else {
-                        this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                    this.$emit("getAdmins");
-                });
+                );
             this.closeMask();
         }
     },

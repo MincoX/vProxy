@@ -206,36 +206,52 @@ export default {
                     email: this.email,
                     imgBase64: this.imgBase64
                 })
-                .then(res => {
-                    if (res.body.status) {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                            this.getUserInfo();
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
-                            type: "warning"
-                        });
-                        this.getUserInfo();
-                    } else {
-                        this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                });
+                );
         },
         openWarnMask(pa) {
             this.showWarnMask = true;
             this.warnInfo = pa;
         },
         getUserInfo() {
-            this.$http.get("userinfo.user_info").then(res => {
-                if (res.body.status) {
-                    this.userInfo = res.body.user_info[0];
-                } else {
+            this.$http.get("userinfo.user_info").then(
+                res => {
+                    if (res.body.status) {
+                        this.userInfo = res.body.user_info[0];
+                    } else {
+                        this.$notify({
+                            title: res.body.message,
+                            type: "warning"
+                        });
+                    }
+                },
+                function() {
                     this.$notify({
-                        title: res.body.message,
+                        title: "网络阻塞，请重新刷新页面！",
                         type: "warning"
                     });
                 }
-            });
+            );
         }
     }
 };

@@ -64,20 +64,28 @@ export default {
                     role_id: para.roleId,
                     new_perms: JSON.stringify(para.newPerms)
                 })
-                .then(res => {
-                    if (res.body.status) {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "success"
+                            });
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                        this.$emit("getRoles");
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
-                            type: "success"
-                        });
-                    } else {
-                        this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                    this.$emit("getRoles");
-                });
+                );
             this.closeMask();
         }
     },

@@ -356,17 +356,33 @@ export default {
     },
     methods: {
         getChartDatas() {
-            this.$http.get("dashboard.pie_chart").then(res => {
-                this.labels = res.body.label;
-                this.data = res.body.data;
-                this.scale = res.body.scale;
-                this.flag = true;
-            });
+            this.$http.get("dashboard.pie_chart").then(
+                res => {
+                    this.labels = res.body.label;
+                    this.data = res.body.data;
+                    this.scale = res.body.scale;
+                    this.flag = true;
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         getProxies() {
-            this.$http.get("proxy.proxies").then(res => {
-                this.proxies = res.body.proxies;
-            });
+            this.$http.get("proxy.proxies").then(
+                res => {
+                    this.proxies = res.body.proxies;
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         nextPage() {
             if (this.curPage == this.pageNum - 1) {
@@ -400,26 +416,34 @@ export default {
             // disable send check
             this.disabled_check = true;
 
-            this.$http.post("proxy.check/", { proxyId: proxyId }).then(res => {
-                if (res.body.status) {
-                    this.$notify({
-                        title: "结果返回成功",
-                        type: "success"
-                    });
-                    // cancel loading label
-                    this.loading = false;
-                    // cancel disabled check
-                    this.disabled_check = false;
+            this.$http.post("proxy.check/", { proxyId: proxyId }).then(
+                res => {
+                    if (res.body.status) {
+                        this.$notify({
+                            title: "结果返回成功",
+                            type: "success"
+                        });
+                        // cancel loading label
+                        this.loading = false;
+                        // cancel disabled check
+                        this.disabled_check = false;
 
-                    this.checked = res.body;
-                    this.getProxies();
-                } else {
+                        this.checked = res.body;
+                        this.getProxies();
+                    } else {
+                        this.$notify({
+                            title: res.body.message,
+                            type: "warning"
+                        });
+                    }
+                },
+                function() {
                     this.$notify({
-                        title: res.body.message,
+                        title: "网络阻塞，请重新刷新页面！",
                         type: "warning"
                     });
                 }
-            });
+            );
         },
         drawChart() {
             var pieChartCanvas = $("#pieChart")

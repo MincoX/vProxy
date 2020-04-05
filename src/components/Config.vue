@@ -312,46 +312,61 @@ export default {
     },
     methods: {
         getLogDashboard() {
-            this.$http.get("log.log_dashboard").then(res => {
-                if (res.body.status) {
-                    this.dashboard = res.body;
-                    this.server_error_count = res.body.server.error_count;
-                    this.server_error_info = res.body.server.error_info[0];
-                    this.server_error_time = res.body.server.error_info[1];
-                    this.spider_status = res.body.spider.status;
-                    this.spider_task_active = res.body.spider.task_active;
-                    this.spider_harvest = res.body.spider.harvest;
-                    this.check_status = res.body.check.status;
-                    this.check_task_active = res.body.check.task_active;
-                    this.check_harvest = res.body.check.harvest * -1;
-                    this.spiderCountdown = res.body.spider.countdown;
-                    this.checkCountdown = res.body.check.countdown;
-                } else {
+            this.$http.get("log.log_dashboard").then(
+                res => {
+                    if (res.body.status) {
+                        this.dashboard = res.body;
+                        this.server_error_count = res.body.server.error_count;
+                        this.server_error_info = res.body.server.error_info[0];
+                        this.server_error_time = res.body.server.error_info[1];
+                        this.spider_status = res.body.spider.status;
+                        this.spider_task_active = res.body.spider.task_active;
+                        this.spider_harvest = res.body.spider.harvest;
+                        this.check_status = res.body.check.status;
+                        this.check_task_active = res.body.check.task_active;
+                        this.check_harvest = res.body.check.harvest * -1;
+                        this.spiderCountdown = res.body.spider.countdown;
+                        this.checkCountdown = res.body.check.countdown;
+                    } else {
+                        this.$notify({
+                            title: res.body.message,
+                            type: "warning"
+                        });
+                    }
+                },
+                function() {
                     this.$notify({
-                        title: res.body.message,
+                        title: "网络阻塞，请重新刷新页面！",
                         type: "warning"
                     });
                 }
-            });
+            );
         },
         getServerLog() {
-            this.$http.get("log.server_log").then(res => {
-                if (res.body.status) {
-                    this.serverLog = res.body.error_list;
-                } else {
+            this.$http.get("log.server_log").then(
+                res => {
+                    if (res.body.status) {
+                        this.serverLog = res.body.error_list;
+                    } else {
+                        this.$notify({
+                            title: res.body.message,
+                            type: "warning"
+                        });
+                    }
+                    this.disDate = false;
+                },
+                function() {
                     this.$notify({
-                        title: res.body.message,
+                        title: "网络阻塞，请重新刷新页面！",
                         type: "warning"
                     });
                 }
-                this.disDate = false;
-            });
+            );
         },
         getCeleryTask(dt) {
             this.disDate = true;
-            this.$http
-                .post("log.celery_task/", { filter_date: dt })
-                .then(res => {
+            this.$http.post("log.celery_task/", { filter_date: dt }).then(
+                res => {
                     if (res.body.status) {
                         this.celeryTasks = res.body.task_list;
                     } else {
@@ -361,21 +376,36 @@ export default {
                         });
                     }
                     this.disDate = false;
-                });
-        },
-        getLoginLog(dt) {
-            this.disDate = true;
-            this.$http.post("log.login_log/", { filter_date: dt }).then(res => {
-                if (res.body.status) {
-                    this.loginLogs = res.body.login_info;
-                } else {
+                },
+                function() {
                     this.$notify({
-                        title: res.body.message,
+                        title: "网络阻塞，请重新刷新页面！",
                         type: "warning"
                     });
                 }
-                this.disDate = false;
-            });
+            );
+        },
+        getLoginLog(dt) {
+            this.disDate = true;
+            this.$http.post("log.login_log/", { filter_date: dt }).then(
+                res => {
+                    if (res.body.status) {
+                        this.loginLogs = res.body.login_info;
+                    } else {
+                        this.$notify({
+                            title: res.body.message,
+                            type: "warning"
+                        });
+                    }
+                    this.disDate = false;
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         showCalendar() {
             this.showCalendarModal = !this.showCalendarModal;

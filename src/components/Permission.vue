@@ -317,9 +317,8 @@ export default {
         },
         openSetPerm(para) {
             this.showSetPermMask = true;
-            this.$http
-                .post("permission.role_perms/", { slug: para.slug })
-                .then(res => {
+            this.$http.post("permission.role_perms/", { slug: para.slug }).then(
+                res => {
                     if (res.body.status) {
                         let role_perms = res.body.perms;
                         this.perms.forEach(function(perm, i) {
@@ -337,31 +336,46 @@ export default {
                             type: "warning"
                         });
                     }
-                });
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         openSetRole(para) {
             this.showSetRoleMask = true;
             this.$http
                 .post("permission.user_roles/", { user_id: para.userId })
-                .then(res => {
-                    if (res.body.status) {
-                        let userPoles = res.body.roles;
-                        this.roles.forEach(function(role, i) {
-                            userPoles.forEach(function(u_r, j) {
-                                if (u_r.slug == role.slug) {
-                                    role.selected = true;
-                                }
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            let userPoles = res.body.roles;
+                            this.roles.forEach(function(role, i) {
+                                userPoles.forEach(function(u_r, j) {
+                                    if (u_r.slug == role.slug) {
+                                        role.selected = true;
+                                    }
+                                });
                             });
-                        });
-                        this.setPermParameter = para;
-                        this.setPermParameter["roles"] = this.roles;
-                    } else {
+                            this.setPermParameter = para;
+                            this.setPermParameter["roles"] = this.roles;
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                });
+                );
         },
         openAddRole() {
             this.showAddRoleMask = true;
@@ -374,19 +388,43 @@ export default {
             this.showAddAdminMask = true;
         },
         getPerms() {
-            this.$http.get("permission.perms").then(res => {
-                this.perms = res.body;
-            });
+            this.$http.get("permission.perms").then(
+                res => {
+                    this.perms = res.body;
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         getRoles() {
-            this.$http.get("permission.roles").then(res => {
-                this.roles = res.body;
-            });
+            this.$http.get("permission.roles").then(
+                res => {
+                    this.roles = res.body;
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         getAdmins() {
-            this.$http.get("permission.admins").then(res => {
-                this.admins = res.body;
-            });
+            this.$http.get("permission.admins").then(
+                res => {
+                    this.admins = res.body;
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         toggleActive(para) {
             this.$http
@@ -394,37 +432,53 @@ export default {
                     uid: para.uid,
                     active: para.active
                 })
-                .then(res => {
-                    if (res.body.status) {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "success"
+                            });
+                            this.getAdmins();
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
-                            type: "success"
-                        });
-                        this.getAdmins();
-                    } else {
-                        this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                });
+                );
         },
         resetPassword(para) {
             this.$http
                 .post("permission.reset_password/", { uid: para.uid })
-                .then(res => {
-                    if (res.body.status) {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "success"
+                            });
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
-                            type: "success"
-                        });
-                    } else {
-                        this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                });
+                );
         }
     }
 };

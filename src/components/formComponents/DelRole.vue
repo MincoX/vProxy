@@ -41,20 +41,28 @@ export default {
         submitBtn() {
             this.$http
                 .post("permission.del_role/", { role_id: this.para.roleId })
-                .then(res => {
-                    if (res.body.status) {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "success"
+                            });
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                        this.$emit("getRoles");
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
-                            type: "success"
-                        });
-                    } else {
-                        this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                    this.$emit("getRoles");
-                });
+                );
             this.closeMask();
         }
     },

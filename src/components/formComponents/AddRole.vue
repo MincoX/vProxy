@@ -64,23 +64,31 @@ export default {
                         slug: this.roleSlug,
                         name: this.roleName
                     })
-                    .then(res => {
-                        if (res.body.status) {
+                    .then(
+                        res => {
+                            if (res.body.status) {
+                                this.$notify({
+                                    title: res.body.message,
+                                    type: "success"
+                                });
+                            } else {
+                                this.$notify({
+                                    title: res.body.message,
+                                    type: "warning"
+                                });
+                            }
+                            this.$emit("getRoles");
+                            this.roleName = "";
+                            this.roleSlug = "";
+                            this.closeMask();
+                        },
+                        function() {
                             this.$notify({
-                                title: res.body.message,
-                                type: "success"
-                            });
-                        } else {
-                            this.$notify({
-                                title: res.body.message,
+                                title: "网络阻塞，请重新刷新页面！",
                                 type: "warning"
                             });
                         }
-                        this.$emit("getRoles");
-                        this.roleName = "";
-                        this.roleSlug = "";
-                        this.closeMask();
-                    });
+                    );
             } else {
                 this.$notify({
                     title: "数据不能为空",

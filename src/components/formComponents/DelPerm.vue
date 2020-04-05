@@ -41,20 +41,28 @@ export default {
         submitBtn() {
             this.$http
                 .post("permission.del_perm/", { perm_id: this.para.permId })
-                .then(res => {
-                    if (res.body.status) {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "success"
+                            });
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                        this.$emit("getPerms");
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
-                            type: "success"
-                        });
-                    } else {
-                        this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                    this.$emit("getPerms");
-                });
+                );
             this.closeMask();
         }
     },

@@ -70,9 +70,17 @@ export default {
             return content;
         },
         getUserInfo() {
-            this.$http.get("userinfo.user_info").then(res => {
-                this.userInfo = res.body.user_info[0];
-            });
+            this.$http.get("userinfo.user_info").then(
+                res => {
+                    this.userInfo = res.body.user_info[0];
+                },
+                function() {
+                    this.$notify({
+                        title: "网络阻塞，请重新刷新页面！",
+                        type: "warning"
+                    });
+                }
+            );
         },
         publishMessage(data) {
             if (data.messageContent == "" || data.messageTitle == "") {
@@ -87,26 +95,34 @@ export default {
                     title: data.messageTitle,
                     content: data.messageContent
                 })
-                .then(res => {
-                    if (res.body.status) {
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "success"
+                            });
+                            this.$router.push({
+                                //核心语句
+                                path: "/messagedetail", //跳转的路径
+                                query: {
+                                    messageId: res.body.message_id
+                                }
+                            });
+                        } else {
+                            this.$notify({
+                                title: res.body.message,
+                                type: "warning"
+                            });
+                        }
+                    },
+                    function() {
                         this.$notify({
-                            title: res.body.message,
-                            type: "success"
-                        });
-                        this.$router.push({
-                            //核心语句
-                            path: "/messagedetail", //跳转的路径
-                            query: {
-                                messageId: res.body.message_id
-                            }
-                        });
-                    } else {
-                        this.$notify({
-                            title: res.body.message,
+                            title: "网络阻塞，请重新刷新页面！",
                             type: "warning"
                         });
                     }
-                });
+                );
         }
     }
 };

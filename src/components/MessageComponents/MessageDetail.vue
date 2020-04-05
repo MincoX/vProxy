@@ -49,12 +49,20 @@ export default {
         getMessageDetail() {
             this.$http
                 .post("message.message_detail/", { message_id: this.messageId })
-                .then(res => {
-                    if (res.body.status) {
-                        this.message = res.body.message;
-                        this.userInfo = res.body.user_info;
+                .then(
+                    res => {
+                        if (res.body.status) {
+                            this.message = res.body.message;
+                            this.userInfo = res.body.user_info;
+                        }
+                    },
+                    function() {
+                        this.$notify({
+                            title: "网络阻塞，请重新刷新页面！",
+                            type: "warning"
+                        });
                     }
-                });
+                );
         },
         turnMessage() {
             this.$router.push({

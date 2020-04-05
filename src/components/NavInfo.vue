@@ -91,18 +91,26 @@ export default {
     },
     methods: {
         getStoreInfo() {
-            this.$http.get("dashboard.store_info").then(res => {
-                if (res.body.status) {
-                    this.storeInfo = res.body.store_info;
-                    this.spiderCountdown = res.body.spider_countdown;
-                    this.checkCountdown = res.body.check_countdown;
-                } else {
+            this.$http.get("dashboard.store_info").then(
+                res => {
+                    if (res.body.status) {
+                        this.storeInfo = res.body.store_info;
+                        this.spiderCountdown = res.body.spider_countdown;
+                        this.checkCountdown = res.body.check_countdown;
+                    } else {
+                        this.$notify({
+                            title: res.body.message,
+                            type: "warning"
+                        });
+                    }
+                },
+                function() {
                     this.$notify({
-                        title: res.body.message,
+                        title: "网络阻塞，请重新刷新页面！",
                         type: "warning"
                     });
                 }
-            });
+            );
         }
     }
 };
