@@ -48,7 +48,7 @@ export default {
         },
         getMessageDetail() {
             this.$http
-                .post("message.message_detail/", { message_id: this.messageId })
+                .post("api/message.message_detail/", { message_id: this.messageId })
                 .then(
                     res => {
                         if (res.body.status) {

@@ -60,7 +60,7 @@ export default {
         },
         submitBtn(para) {
             this.$http
-                .post("permission.set_role/", {
+                .post("api/permission.set_role/", {
                     user_id: para.userId,
                     new_roles: JSON.stringify(para.newRoles)
                 })

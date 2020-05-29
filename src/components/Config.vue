@@ -268,7 +268,7 @@
 </template>
 
 <script>
-import WarningTip from "./formComponents/WarningTip";
+import WarningTip from "./FormComponents/WarningTip";
 import SocketIo from "./Common/SocketIo";
 import Countdown from "./Common/Countdown";
 import Calendar from "../components/Common/Calendar";
@@ -312,7 +312,7 @@ export default {
     },
     methods: {
         getLogDashboard() {
-            this.$http.get("log.log_dashboard").then(
+            this.$http.get("api/log.log_dashboard").then(
                 res => {
                     if (res.body.status) {
                         this.dashboard = res.body;
@@ -343,7 +343,7 @@ export default {
             );
         },
         getServerLog() {
-            this.$http.get("log.server_log").then(
+            this.$http.get("api/log.server_log").then(
                 res => {
                     if (res.body.status) {
                         this.serverLog = res.body.error_list;
@@ -365,7 +365,7 @@ export default {
         },
         getCeleryTask(dt) {
             this.disDate = true;
-            this.$http.post("log.celery_task/", { filter_date: dt }).then(
+            this.$http.post("api/log.celery_task/", { filter_date: dt }).then(
                 res => {
                     if (res.body.status) {
                         this.celeryTasks = res.body.task_list;
@@ -387,7 +387,7 @@ export default {
         },
         getLoginLog(dt) {
             this.disDate = true;
-            this.$http.post("log.login_log/", { filter_date: dt }).then(
+            this.$http.post("api/log.login_log/", { filter_date: dt }).then(
                 res => {
                     if (res.body.status) {
                         this.loginLogs = res.body.login_info;

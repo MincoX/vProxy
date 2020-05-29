@@ -91,7 +91,7 @@ export default {
     },
     methods: {
         getStoreInfo() {
-            this.$http.get("dashboard.store_info").then(
+            this.$http.get("api/dashboard.store_info").then(
                 res => {
                     if (res.body.status) {
                         this.storeInfo = res.body.store_info;

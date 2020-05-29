@@ -60,7 +60,7 @@ export default {
         submitBtn() {
             if (this.roleSlug && this.roleName) {
                 this.$http
-                    .post("permission.add_role/", {
+                    .post("api/permission.add_role/", {
                         slug: this.roleSlug,
                         name: this.roleName
                     })

@@ -141,7 +141,7 @@ export default {
         getScale(dt) {
             this.disDate = true;
             this.$http
-                .post("dashboard.total_active_scale/", { filter_date: dt })
+                .post("api/dashboard.total_active_scale/", { filter_date: dt })
                 .then(
                     res => {
                         if (res.body.status) {
@@ -166,7 +166,7 @@ export default {
         },
         getChartDatas(dt) {
             this.disDate = true;
-            this.$http.post("dashboard.line_chart/", { filter_date: dt }).then(
+            this.$http.post("api/dashboard.line_chart/", { filter_date: dt }).then(
                 res => {
                     if (res.body.status) {
                         this.labels = res.body.label;

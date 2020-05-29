@@ -99,7 +99,7 @@ export default {
                 : content;
         },
         getMyMessage() {
-            this.$http.get("message.my_message").then(
+            this.$http.get("api/message.my_message").then(
                 res => {
                     if (res.body.status) {
                         this.myMessageList = res.body.message_list;

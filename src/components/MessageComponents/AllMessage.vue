@@ -144,7 +144,7 @@ export default {
                 : content;
         },
         getAnnouncement() {
-            this.$http.get("message.announcement_message").then(
+            this.$http.get("api/message.announcement_message").then(
                 res => {
                     if (res.body.status) {
                         this.announcemnet = res.body.message;
@@ -161,7 +161,7 @@ export default {
             );
         },
         getAllMessage() {
-            this.$http.get("message.all_message").then(
+            this.$http.get("api/message.all_message").then(
                 res => {
                     if (res.body.status) {
                         this.allMessageList = res.body.all_message_list;

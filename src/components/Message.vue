@@ -70,7 +70,7 @@ export default {
             return content;
         },
         getUserInfo() {
-            this.$http.get("userinfo.user_info").then(
+            this.$http.get("api/userinfo.user_info").then(
                 res => {
                     this.userInfo = res.body.user_info[0];
                 },
@@ -91,7 +91,7 @@ export default {
                 return;
             }
             this.$http
-                .post("message.publish/", {
+                .post("api/message.publish/", {
                     title: data.messageTitle,
                     content: data.messageContent
                 })

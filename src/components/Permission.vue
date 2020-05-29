@@ -258,14 +258,14 @@
 </template>
 
 <script>
-import TipConfirm from "./formComponents/TipConfirm";
-import AddPerm from "./formComponents/AddPerm";
-import DelPerm from "./formComponents/DelPerm";
-import SetPerm from "./formComponents/SetPerm";
-import AddRole from "./formComponents/AddRole";
-import DelRole from "./formComponents/DelRole";
-import AddAdmin from "./formComponents/AddAdmin";
-import SetRole from "./formComponents/SetRole";
+import TipConfirm from "./FormComponents/TipConfirm";
+import AddPerm from "./FormComponents/AddPerm";
+import DelPerm from "./FormComponents/DelPerm";
+import SetPerm from "./FormComponents/SetPerm";
+import AddRole from "./FormComponents/AddRole";
+import DelRole from "./FormComponents/DelRole";
+import AddAdmin from "./FormComponents/AddAdmin";
+import SetRole from "./FormComponents/SetRole";
 
 export default {
     data() {
@@ -317,7 +317,7 @@ export default {
         },
         openSetPerm(para) {
             this.showSetPermMask = true;
-            this.$http.post("permission.role_perms/", { slug: para.slug }).then(
+            this.$http.post("api/permission.role_perms/", { slug: para.slug }).then(
                 res => {
                     if (res.body.status) {
                         let role_perms = res.body.perms;
@@ -348,7 +348,7 @@ export default {
         openSetRole(para) {
             this.showSetRoleMask = true;
             this.$http
-                .post("permission.user_roles/", { user_id: para.userId })
+                .post("api/permission.user_roles/", { user_id: para.userId })
                 .then(
                     res => {
                         if (res.body.status) {
@@ -388,7 +388,7 @@ export default {
             this.showAddAdminMask = true;
         },
         getPerms() {
-            this.$http.get("permission.perms").then(
+            this.$http.get("api/permission.perms").then(
                 res => {
                     this.perms = res.body;
                 },
@@ -401,7 +401,7 @@ export default {
             );
         },
         getRoles() {
-            this.$http.get("permission.roles").then(
+            this.$http.get("api/permission.roles").then(
                 res => {
                     this.roles = res.body;
                 },
@@ -414,7 +414,7 @@ export default {
             );
         },
         getAdmins() {
-            this.$http.get("permission.admins").then(
+            this.$http.get("api/permission.admins").then(
                 res => {
                     this.admins = res.body;
                 },
@@ -428,7 +428,7 @@ export default {
         },
         toggleActive(para) {
             this.$http
-                .post("permission.toggle_active/", {
+                .post("api/permission.toggle_active/", {
                     uid: para.uid,
                     active: para.active
                 })
@@ -457,7 +457,7 @@ export default {
         },
         resetPassword(para) {
             this.$http
-                .post("permission.reset_password/", { uid: para.uid })
+                .post("api/permission.reset_password/", { uid: para.uid })
                 .then(
                     res => {
                         if (res.body.status) {

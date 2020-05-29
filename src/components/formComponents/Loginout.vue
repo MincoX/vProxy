@@ -60,7 +60,7 @@ export default {
         submitBtn() {
             if (this.username && this.password) {
                 this.$http
-                    .post("permission.add_admin/", {
+                    .post("api/permission.add_admin/", {
                         username: this.username,
                         password: this.password
                     })

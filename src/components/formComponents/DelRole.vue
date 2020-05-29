@@ -40,7 +40,7 @@ export default {
         },
         submitBtn() {
             this.$http
-                .post("permission.del_role/", { role_id: this.para.roleId })
+                .post("api/permission.del_role/", { role_id: this.para.roleId })
                 .then(
                     res => {
                         if (res.body.status) {

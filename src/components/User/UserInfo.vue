@@ -168,7 +168,7 @@
 </template>
 
 <script>
-import WarningTip from "../formComponents/WarningTip";
+import WarningTip from "../FormComponents/WarningTip";
 import UploadFile from "../Common/UploadFile";
 export default {
     data() {
@@ -197,7 +197,7 @@ export default {
         },
         submitUpdateInfo() {
             this.$http
-                .post("userinfo.update_user_info/", {
+                .post("api/userinfo.update_user_info/", {
                     username: this.username,
                     password: this.password,
                     phone: this.phone,
@@ -234,7 +234,7 @@ export default {
             this.warnInfo = pa;
         },
         getUserInfo() {
-            this.$http.get("userinfo.user_info").then(
+            this.$http.get("api/userinfo.user_info").then(
                 res => {
                     if (res.body.status) {
                         this.userInfo = res.body.user_info[0];

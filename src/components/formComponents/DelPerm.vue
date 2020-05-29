@@ -40,7 +40,7 @@ export default {
         },
         submitBtn() {
             this.$http
-                .post("permission.del_perm/", { perm_id: this.para.permId })
+                .post("api/permission.del_perm/", { perm_id: this.para.permId })
                 .then(
                     res => {
                         if (res.body.status) {

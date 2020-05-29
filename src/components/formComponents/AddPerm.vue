@@ -60,7 +60,7 @@ export default {
         submitBtn() {
             if (this.permName && this.permSlug) {
                 this.$http
-                    .post("permission.add_perm/", {
+                    .post("api/permission.add_perm/", {
                         name: this.permName,
                         slug: this.permSlug
                     })

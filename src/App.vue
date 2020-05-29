@@ -193,7 +193,7 @@
 </template>
 
 <script>
-import TipConfirm from "./components/formComponents/TipConfirm";
+import TipConfirm from "./components/FormComponents/TipConfirm";
 export default {
     name: "App",
     data() {
@@ -218,23 +218,23 @@ export default {
             this.loginoutPara = para;
         },
         loginOut() {
-            this.$http.get("http://49.232.19.51:9999/login_out").then(res => {
+            this.$http.get("login_out").then(res => {
                 if (res.body.status) {
                     this.$notify({
                         title: "退出登录！",
                         type: "success"
                     });
-                    location.href = "http://49.232.19.51:9999/login";
+                    location.href = "http://proxy.minco.club/login";
                 }
             });
         },
         getNavigate() {
-            this.$http.get("dashboard.navigate").then(res => {
+            this.$http.get("api/dashboard.navigate").then(res => {
                 this.navigates = res.body;
             });
         },
         getUserInfo() {
-            this.$http.get("userinfo.user_info").then(res => {
+            this.$http.get("api/userinfo.user_info").then(res => {
                 this.userInfo = res.body.user_info[0];
                 this.userInfo['identity'] = res.body.identity
                 // this.identity = res.body.identity;

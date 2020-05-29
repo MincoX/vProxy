@@ -356,7 +356,7 @@ export default {
     },
     methods: {
         getChartDatas() {
-            this.$http.get("dashboard.pie_chart").then(
+            this.$http.get("api/dashboard.pie_chart").then(
                 res => {
                     this.labels = res.body.label;
                     this.data = res.body.data;
@@ -372,7 +372,7 @@ export default {
             );
         },
         getProxies() {
-            this.$http.get("proxy.proxies").then(
+            this.$http.get("api/proxy.proxies").then(
                 res => {
                     this.proxies = res.body.proxies;
                 },
@@ -416,7 +416,7 @@ export default {
             // disable send check
             this.disabled_check = true;
 
-            this.$http.post("proxy.check/", { proxyId: proxyId }).then(
+            this.$http.post("api/proxy.check/", { proxyId: proxyId }).then(
                 res => {
                     if (res.body.status) {
                         this.$notify({

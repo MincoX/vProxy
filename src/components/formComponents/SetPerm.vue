@@ -60,7 +60,7 @@ export default {
         },
         submitBtn(para) {
             this.$http
-                .post("permission.set_perm/", {
+                .post("api/permission.set_perm/", {
                     role_id: para.roleId,
                     new_perms: JSON.stringify(para.newPerms)
                 })
