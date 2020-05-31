@@ -224,7 +224,7 @@ export default {
                         title: "退出登录！",
                         type: "success"
                     });
-                    location.href = "http://proxy.minco.club/login";
+                    location.href = "http://proxy.mincox.club/login";
                 }
             });
         },

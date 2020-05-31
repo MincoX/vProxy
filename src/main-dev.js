@@ -19,10 +19,11 @@ Vue.use(ElementUI)
 Vue.use(VueResource)
 Vue.config.productionTip = false
 Vue.http.options.emulateJSON = true
-Vue.http.options.root = 'http://proxy.minco.club/'
+// Vue.http.options.root = 'http://proxy.mincox.club/'
+Vue.http.options.root = 'http://47.102.134.101:19999/'
 // Vue.use(new VueSocketIO({
 //   debug: false,
-//   connection: 'http://49.232.19.51:19999/',
+//   connection: 'http://47.102.134.101:19999/',
 // }))
 
 
